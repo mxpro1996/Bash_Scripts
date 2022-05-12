@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+# Getting latest adb/fastboot toolpack
+read -p "OS: " system
+wget https://dl.google.com/android/repository/platform-tools-latest-${system}.zip -O platform-tools.zip
+unzip platform-tools.zip \
+	platform-tools/adb.exe \
+	platform-tools/fastboot.exe \
+	platform-tools/AdbWinApi.dll \
+	platform-tools/AdbWinUsbApi.dll
+tar -zcvf adb_fastboot_latest_${system}.tgz platform-tools
+rm -rf platform-tools platform-tools.zip

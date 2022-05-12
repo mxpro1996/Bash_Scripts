@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Directly clone github repo-link via ssh
+# Link like "https://github.com/mxpro1996/Bash_Scripts"
+if [ -z "$1" ]
+then
+	echo "No link"
+	exit 1
+else
+	web=`echo $1 | cut -d '/' -f3`
+	user=`echo $1 | cut -d '/' -f4`
+	repo=`echo $1 | cut -d '/' -f5`
+	git clone git@${web}:${user}/${repo}
+fi

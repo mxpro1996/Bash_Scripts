@@ -1,0 +1,10 @@
+#!usr/bin/bash
+
+# Preview *.tar.gz file
+if [ -z "$1" ]
+then
+	echo "No file selected!"
+	exit 1
+else	
+	gzip -dc $1 | tar -tvf -
+fi
