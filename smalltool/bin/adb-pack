@@ -1,12 +1,31 @@
 #!/usr/bin/bash
 
 # Getting latest adb/fastboot toolpack
-read -p "OS: " system
-wget https://dl.google.com/android/repository/platform-tools-latest-${system}.zip -O platform-tools.zip
-unzip platform-tools.zip \
-	platform-tools/adb.exe \
-	platform-tools/fastboot.exe \
-	platform-tools/AdbWinApi.dll \
-	platform-tools/AdbWinUsbApi.dll
-tar -zcvf adb_fastboot_latest_${system}.tgz platform-tools
-rm -rf platform-tools platform-tools.zip
+echo "Downloading..."
+if [ -z "$1" ]
+then
+	echo "Usage: adb-pack (linux/darwin/windows)"
+	exit 1
+else
+	system=$1
+	file=platform-tools-latest-${system}.zip
+	wget -q https://dl.google.com/android/repository/${file}
+fi
+
+# Pack it
+echo "Packing for ${system}...."
+case ${system} in
+	linux|darwin)
+		List="adb fastboot lib64/*"
+		;;
+	windows)
+		List="adb.exe fastboot.exe AdbWinApi.dll AdbWinUsbApi.dll"
+esac
+
+for i in ${List}
+do
+	unzip ${file} platform-tools/$i
+done
+
+tar -zcvf output_${system}.tgz platform-tools \
+	&& rm -rf ${file} platform-tools
