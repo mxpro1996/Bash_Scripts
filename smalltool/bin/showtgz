@@ -1,4 +1,4 @@
-#!usr/bin/bash
+#!/usr/bin/bash
 
 # Preview *.tar.gz file
 if [ -z "$1" ]
